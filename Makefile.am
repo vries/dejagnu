@@ -18,7 +18,7 @@
 
 # Process this file with automake to generate Makefile.in
 
-AUTOMAKE_OPTIONS = dejagnu
+AUTOMAKE_OPTIONS = dejagnu info-in-builddir
 export DEJAGNU
 
 EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \

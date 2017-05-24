@@ -216,7 +216,7 @@ AM_V_texidevnull = $(am__v_texidevnull_@AM_V@)
 am__v_texidevnull_ = $(am__v_texidevnull_@AM_DEFAULT_V@)
 am__v_texidevnull_0 = > /dev/null
 am__v_texidevnull_1 = 
-INFO_DEPS = $(srcdir)/doc/dejagnu.info
+INFO_DEPS = doc/dejagnu.info
 am__TEXINFO_TEX_DIR = $(srcdir)
 DVIS = doc/dejagnu.dvi
 PDFS = doc/dejagnu.pdf
@@ -373,7 +373,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AUTOMAKE_OPTIONS = dejagnu
+AUTOMAKE_OPTIONS = dejagnu info-in-builddir
 EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
 	$(TESTSUITE_FILES) $(XML) $(CONTRIB)
@@ -668,24 +668,21 @@ doc/$(am__dirstamp):
 	@$(MKDIR_P) doc
 	@: > doc/$(am__dirstamp)
 
-$(srcdir)/doc/dejagnu.info: doc/dejagnu.texi 
+doc/dejagnu.info: doc/dejagnu.texi 
+	@test -f doc/$(am__dirstamp) || $(MAKE) $(AM_MAKEFLAGS) doc/$(am__dirstamp)
 	$(AM_V_MAKEINFO)restore=: && backupdir="$(am__leading_dot)am$$$$" && \
-	am__cwd=`pwd` && $(am__cd) $(srcdir) && \
 	rm -rf $$backupdir && mkdir $$backupdir && \
 	if ($(MAKEINFO) --version) >/dev/null 2>&1; then \
 	  for f in $@ $@-[0-9] $@-[0-9][0-9] $(@:.info=).i[0-9] $(@:.info=).i[0-9][0-9]; do \
 	    if test -f $$f; then mv $$f $$backupdir; restore=mv; else :; fi; \
 	  done; \
 	else :; fi && \
-	cd "$$am__cwd"; \
 	if $(MAKEINFO) $(AM_MAKEINFOFLAGS) $(MAKEINFOFLAGS) -I doc -I $(srcdir)/doc \
-	 -o $@ $(srcdir)/doc/dejagnu.texi; \
+	 -o $@ `test -f 'doc/dejagnu.texi' || echo '$(srcdir)/'`doc/dejagnu.texi; \
 	then \
 	  rc=0; \
-	  $(am__cd) $(srcdir); \
 	else \
 	  rc=$$?; \
-	  $(am__cd) $(srcdir) && \
 	  $$restore $$backupdir/* `echo "./$@" | sed 's|[^/]*$$||'`; \
 	fi; \
 	rm -rf $$backupdir; exit $$rc
