@@ -142,32 +142,32 @@ CONTRIB = contrib/compare_tests contrib/sum2junit.sh \
 # Testsuite.
 
 TESTSUITE_FILES = \
-	testsuite/runtest.all/topdir/subdir1/subsubdir1/subsubfile1 \
-	testsuite/runtest.all/topdir/subdir1/subfile1 \
-	testsuite/runtest.all/topdir/subdir1/subfile2 \
-	testsuite/runtest.all/topdir/subdir2/subfile2 \
-	testsuite/runtest.all/libs.exp \
-	testsuite/runtest.all/options.exp \
-	testsuite/runtest.all/remote.test \
-	testsuite/runtest.all/stats-sub.exp \
-	testsuite/runtest.all/stats.exp \
-	testsuite/runtest.all/target.test \
-	testsuite/runtest.all/utils.test \
-	testsuite/runtest.all/clone_output.test \
-	testsuite/runtest.all/config.test \
-	testsuite/runtest.all/default_procs.tcl \
-	testsuite/runtest.all/load_lib.exp \
+	testsuite/dejagnu.dg/runtest.all/topdir/subdir1/subsubdir1/subsubfile1 \
+	testsuite/dejagnu.dg/runtest.all/topdir/subdir1/subfile1 \
+	testsuite/dejagnu.dg/runtest.all/topdir/subdir1/subfile2 \
+	testsuite/dejagnu.dg/runtest.all/topdir/subdir2/subfile2 \
+	testsuite/dejagnu.dg/runtest.all/libs.exp \
+	testsuite/dejagnu.dg/runtest.all/options.exp \
+	testsuite/dejagnu.dg/runtest.all/remote.test \
+	testsuite/dejagnu.dg/runtest.all/stats-sub.exp \
+	testsuite/dejagnu.dg/runtest.all/stats.exp \
+	testsuite/dejagnu.dg/runtest.all/target.test \
+	testsuite/dejagnu.dg/runtest.all/utils.test \
+	testsuite/dejagnu.dg/runtest.all/clone_output.test \
+	testsuite/dejagnu.dg/runtest.all/config.test \
+	testsuite/dejagnu.dg/runtest.all/default_procs.tcl \
+	testsuite/dejagnu.dg/runtest.all/load_lib.exp \
 	testsuite/config/default.exp \
 	testsuite/lib/libsup.exp \
 	testsuite/lib/util-defs.exp \
-	testsuite/libdejagnu/tunit.exp
+	testsuite/dejagnu.dg/libdejagnu/tunit.exp
 
 RUNTEST = ${top_srcdir}/runtest
-RUNTESTDEFAULTFLAGS = --srcdir $(srcdir)/testsuite RUNTEST=$(RUNTEST)
+RUNTESTDEFAULTFLAGS = --tool $$tool --srcdir $(srcdir)/testsuite RUNTEST=$(RUNTEST)
 
 AM_CXXFLAGS = -I$(top_srcdir) -g
 check_PROGRAMS = unit
-unit_SOURCES = testsuite/libdejagnu/unit.cc
+unit_SOURCES = testsuite/dejagnu.dg/libdejagnu/unit.cc
 
 # Documentation.
 

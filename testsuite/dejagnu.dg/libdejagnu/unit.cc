@@ -71,7 +71,7 @@ main (int argc, char *argv[])
   testClass2.tnum = 2;
   testClass3.tname = "testType3";
   testClass3.tnum = 3;
-  
+
   // Test the pass message.
   cout.rdbuf (strbuf.rdbuf ());
   strbuf.str ("");
@@ -82,7 +82,7 @@ main (int argc, char *argv[])
     runtest.pass ("Pass message");
   else
     runtest.fail ("Pass message");
-  
+
   // Test the fail message.
   cout.rdbuf (strbuf.rdbuf ());
   strbuf.str ("");
@@ -94,7 +94,7 @@ main (int argc, char *argv[])
     runtest.pass ("Fail message");
   else
     runtest.fail ("Fail message");
-  
+
   // Test the untested message.
   cout.rdbuf (strbuf.rdbuf ());
   strbuf.str ("");
@@ -107,7 +107,7 @@ main (int argc, char *argv[])
   } else {
     runtest.fail ("Untested message");
   }
-  
+
   // Test the unresolved message.
   cout.rdbuf (strbuf.rdbuf ());
   strbuf.str ("");
@@ -119,7 +119,7 @@ main (int argc, char *argv[])
     runtest.pass ("Unresolved message");
   else
     runtest.fail ("Unresolved message");
-  
+
   // Make sure we got everything in the totals.
   cout.rdbuf (strbuf.rdbuf ());
   strbuf.str ("");

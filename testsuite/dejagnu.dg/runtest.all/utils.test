@@ -24,19 +24,19 @@ if [ file exists $file] {
 
 # Test getdirs:
 #
-if [lib_pat_test "getdirs" "${srcdir}/runtest.all" "runtest.all/topdir" ] {
+if [lib_pat_test "getdirs" "${srcdir}/dejagnu.dg/runtest.all" "runtest.all/topdir" ] {
     puts "FAILED: getdirs toplevel, no arguments"
 } else {
     puts "PASSED: getdirs toplevel, no arguments"
 }
 
-if [lib_pat_test "getdirs" "${srcdir}/runtest.all top*" "runtest.all/topdir" ] {
+if [lib_pat_test "getdirs" "${srcdir}/dejagnu.dg/runtest.all top*" "runtest.all/topdir" ] {
     puts "FAILED: getdirs toplevel, one subdir"
 } else {
     puts "PASSED: getdirs toplevel, one subdir"
 }
 
-if [lib_pat_test "getdirs" "${srcdir}/runtest.all/topdir" "subdir1*subdir2" ] {
+if [lib_pat_test "getdirs" "${srcdir}/dejagnu.dg/runtest.all/topdir" "subdir1*subdir2" ] {
     puts "FAILED: getdirs toplevel, two subdirs"
 } else {
     puts "PASSED: getdirs toplevel, two subdirs"
@@ -44,13 +44,13 @@ if [lib_pat_test "getdirs" "${srcdir}/runtest.all/topdir" "subdir1*subdir2" ] {
 
 # Test find:
 #
-if [string match "*/subdir2/subfile2" "[find ${srcdir}/runtest.all/topdir/subdir2 sub*]"] {
+if [string match "*/subdir2/subfile2" "[find ${srcdir}/dejagnu.dg/runtest.all/topdir/subdir2 sub*]"] {
     puts "PASSED: find, only one level deep"
 } else {
     puts "FAILED: find, only one level deep"
 }
 
-if [regexp ".*/subdir1/subsubdir1/subsubfile1( |$)" "[find ${srcdir}/runtest.all/topdir/subdir1 sub*]"] {
+if [regexp ".*/subdir1/subsubdir1/subsubfile1( |$)" "[find ${srcdir}/dejagnu.dg/runtest.all/topdir/subdir1 sub*]"] {
     puts "PASSED: find, two levels deep"
 } else {
     puts "FAILED: find, two  levels deep"

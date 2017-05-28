@@ -11,7 +11,7 @@ proc lib_pat_test { cmd arg pattern } {
 	return -1
     }
     if [ string match "$pattern" $result ] {
- 	return 1
+	return 1
     } else {
 	return 0
     }

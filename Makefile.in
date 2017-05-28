@@ -122,7 +122,7 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_unit_OBJECTS = testsuite/libdejagnu/unit.$(OBJEXT)
+am_unit_OBJECTS = testsuite/dejagnu.dg/libdejagnu/unit.$(OBJEXT)
 unit_OBJECTS = $(am_unit_OBJECTS)
 unit_LDADD = $(LDADD)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
@@ -488,30 +488,30 @@ CONTRIB = contrib/compare_tests contrib/sum2junit.sh \
 
 # Testsuite.
 TESTSUITE_FILES = \
-	testsuite/runtest.all/topdir/subdir1/subsubdir1/subsubfile1 \
-	testsuite/runtest.all/topdir/subdir1/subfile1 \
-	testsuite/runtest.all/topdir/subdir1/subfile2 \
-	testsuite/runtest.all/topdir/subdir2/subfile2 \
-	testsuite/runtest.all/libs.exp \
-	testsuite/runtest.all/options.exp \
-	testsuite/runtest.all/remote.test \
-	testsuite/runtest.all/stats-sub.exp \
-	testsuite/runtest.all/stats.exp \
-	testsuite/runtest.all/target.test \
-	testsuite/runtest.all/utils.test \
-	testsuite/runtest.all/clone_output.test \
-	testsuite/runtest.all/config.test \
-	testsuite/runtest.all/default_procs.tcl \
-	testsuite/runtest.all/load_lib.exp \
+	testsuite/dejagnu.dg/runtest.all/topdir/subdir1/subsubdir1/subsubfile1 \
+	testsuite/dejagnu.dg/runtest.all/topdir/subdir1/subfile1 \
+	testsuite/dejagnu.dg/runtest.all/topdir/subdir1/subfile2 \
+	testsuite/dejagnu.dg/runtest.all/topdir/subdir2/subfile2 \
+	testsuite/dejagnu.dg/runtest.all/libs.exp \
+	testsuite/dejagnu.dg/runtest.all/options.exp \
+	testsuite/dejagnu.dg/runtest.all/remote.test \
+	testsuite/dejagnu.dg/runtest.all/stats-sub.exp \
+	testsuite/dejagnu.dg/runtest.all/stats.exp \
+	testsuite/dejagnu.dg/runtest.all/target.test \
+	testsuite/dejagnu.dg/runtest.all/utils.test \
+	testsuite/dejagnu.dg/runtest.all/clone_output.test \
+	testsuite/dejagnu.dg/runtest.all/config.test \
+	testsuite/dejagnu.dg/runtest.all/default_procs.tcl \
+	testsuite/dejagnu.dg/runtest.all/load_lib.exp \
 	testsuite/config/default.exp \
 	testsuite/lib/libsup.exp \
 	testsuite/lib/util-defs.exp \
-	testsuite/libdejagnu/tunit.exp
+	testsuite/dejagnu.dg/libdejagnu/tunit.exp
 
 RUNTEST = ${top_srcdir}/runtest
-RUNTESTDEFAULTFLAGS = --srcdir $(srcdir)/testsuite RUNTEST=$(RUNTEST)
+RUNTESTDEFAULTFLAGS = --tool $$tool --srcdir $(srcdir)/testsuite RUNTEST=$(RUNTEST)
 AM_CXXFLAGS = -I$(top_srcdir) -g
-unit_SOURCES = testsuite/libdejagnu/unit.cc
+unit_SOURCES = testsuite/dejagnu.dg/libdejagnu/unit.cc
 
 # Documentation.
 dist_man_MANS = doc/runtest.1
@@ -556,15 +556,15 @@ $(am__aclocal_m4_deps):
 
 clean-checkPROGRAMS:
 	-test -z "$(check_PROGRAMS)" || rm -f $(check_PROGRAMS)
-testsuite/libdejagnu/$(am__dirstamp):
-	@$(MKDIR_P) testsuite/libdejagnu
-	@: > testsuite/libdejagnu/$(am__dirstamp)
-testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) testsuite/libdejagnu/$(DEPDIR)
-	@: > testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
-testsuite/libdejagnu/unit.$(OBJEXT):  \
-	testsuite/libdejagnu/$(am__dirstamp) \
-	testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
+testsuite/dejagnu.dg/libdejagnu/$(am__dirstamp):
+	@$(MKDIR_P) testsuite/dejagnu.dg/libdejagnu
+	@: > testsuite/dejagnu.dg/libdejagnu/$(am__dirstamp)
+testsuite/dejagnu.dg/libdejagnu/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) testsuite/dejagnu.dg/libdejagnu/$(DEPDIR)
+	@: > testsuite/dejagnu.dg/libdejagnu/$(DEPDIR)/$(am__dirstamp)
+testsuite/dejagnu.dg/libdejagnu/unit.$(OBJEXT):  \
+	testsuite/dejagnu.dg/libdejagnu/$(am__dirstamp) \
+	testsuite/dejagnu.dg/libdejagnu/$(DEPDIR)/$(am__dirstamp)
 
 unit$(EXEEXT): $(unit_OBJECTS) $(unit_DEPENDENCIES) $(EXTRA_unit_DEPENDENCIES) 
 	@rm -f unit$(EXEEXT)
@@ -642,12 +642,12 @@ uninstall-djlibexecSCRIPTS:
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
-	-rm -f testsuite/libdejagnu/*.$(OBJEXT)
+	-rm -f testsuite/dejagnu.dg/libdejagnu/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@testsuite/libdejagnu/$(DEPDIR)/unit.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@testsuite/dejagnu.dg/libdejagnu/$(DEPDIR)/unit.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -1232,8 +1232,8 @@ distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f doc/$(am__dirstamp)
-	-rm -f testsuite/libdejagnu/$(DEPDIR)/$(am__dirstamp)
-	-rm -f testsuite/libdejagnu/$(am__dirstamp)
+	-rm -f testsuite/dejagnu.dg/libdejagnu/$(DEPDIR)/$(am__dirstamp)
+	-rm -f testsuite/dejagnu.dg/libdejagnu/$(am__dirstamp)
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
@@ -1246,7 +1246,7 @@ clean-am: clean-aminfo clean-checkPROGRAMS clean-generic \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf testsuite/libdejagnu/$(DEPDIR)
+	-rm -rf testsuite/dejagnu.dg/libdejagnu/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-DEJAGNU distclean-compile \
 	distclean-generic distclean-tags
@@ -1387,7 +1387,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf testsuite/libdejagnu/$(DEPDIR)
+	-rm -rf testsuite/dejagnu.dg/libdejagnu/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-aminfo \
 	maintainer-clean-generic
