@@ -259,7 +259,6 @@ ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
 AM_RECURSIVE_TARGETS = cscope
-DEJATOOL = $(PACKAGE)
 am__DIST_COMMON = $(dist_man_MANS) $(srcdir)/Makefile.in AUTHORS \
 	COPYING ChangeLog INSTALL NEWS README TODO compile \
 	config.guess config.sub depcomp install-sh missing texinfo.tex
@@ -374,6 +373,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = dejagnu
+DEJATOOL = $(PACKAGE) dummy
 EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
 	$(TESTSUITE_FILES) $(XML) $(CONTRIB)

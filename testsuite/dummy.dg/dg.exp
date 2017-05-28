@@ -1,0 +1,7 @@
+load_lib dg.exp
+dg-init
+dg-runtest [lsort [glob -nocomplain $srcdir/$subdir/*.test]] \
+    "" \
+    ""
+dg-finish
+

@@ -1,0 +1,1 @@
+echo "first.test:1: error: bla" # { dg-error "bla" "" }

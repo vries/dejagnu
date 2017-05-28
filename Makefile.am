@@ -21,6 +21,8 @@
 AUTOMAKE_OPTIONS = dejagnu
 export DEJAGNU
 
+DEJATOOL = $(PACKAGE) dummy
+
 EXTRA_DIST = ChangeLog-1992 MAINTAINERS runtest \
 	$(pkgdata_DATA) $(config_DATA) $(baseboard_DATA) \
 	$(TESTSUITE_FILES) $(XML) $(CONTRIB)
