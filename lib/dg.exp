@@ -43,17 +43,19 @@
 #	produce an a.out, or produce an a.out and run it (the default is
 #	'compile').
 #
-# dg-error regexp comment [{ target/xfail selector } [{.|0|linenum}]]
+# dg-error regexp comment [{ target/xfail selector } [{.|0|linenum|.[+-]n}]]
 #	indicate an error message <regexp> is expected on this line
 #	(the test fails if it doesn't occur)
 #	linenum=0 for general tool messages (eg: -V arg missing).
 #	"." means the current line.
+#	".[+-]n" means a relative line number, f.i. .-1 is the previous line,
+#	and .+1 is the next line.
 #
-# dg-warning regexp comment [{ target/xfail selector } [{.|0|linenum}]]
+# dg-warning regexp comment [{ target/xfail selector } [{.|0|linenum|.[+-]n}]]
 #	indicate a warning message <regexp> is expected on this line
 #	(the test fails if it doesn't occur)
 #
-# dg-bogus regexp comment [{ target/xfail selector } [{.|0|linenum}]]
+# dg-bogus regexp comment [{ target/xfail selector } [{.|0|linenum|.[+-]n}]]
 #	indicate a bogus error message <regexp> used to occur here
 #	(the test fails if it does occur)
 #
@@ -364,14 +366,21 @@ proc dg-error { args } {
 	}
     }
 
-    if { [llength $args] >= 5 } {
-	switch -- [lindex $args 4] {
-	    "." { set line [dg-format-linenum [lindex $args 0]] }
-	    "0" { set line "" }
-	    "default" { set line [dg-format-linenum [lindex $args 4]] }
-	}
+    set currentnum [lindex $args 0]
+    set numspec [lindex $args 4]
+    if { [llength $args] < 5 } {
+	set line [dg-format-linenum $currentnum]
+    } elseif { [regsub "^\.\[+-\](\[0-9\]+)$" $numspec "\\1" relnum] } {
+	# Handle relative line specification, .+1 or .-1 etc.
+	set relop [string index $numspec 1]
+	set line [expr $currentnum $relop $relnum]
+	set line [dg-format-linenum $line]
     } else {
-	set line [dg-format-linenum [lindex $args 0]]
+	switch -- $numspec {
+	    "." { set line [dg-format-linenum $currentnum] }
+	    "0" { set line "" }
+	    "default" { set line [dg-format-linenum $numspec] }
+	}
     }
 
     lappend messages [list $line "${xfail}ERROR" [lindex $args 1] [lindex $args 2]]
@@ -396,14 +405,21 @@ proc dg-warning { args } {
 	}
     }
 
-    if { [llength $args] >= 5 } {
-	switch -- [lindex $args 4] {
-	    "." { set line [dg-format-linenum [lindex $args 0]] }
-	    "0" { set line "" }
-	    "default" { set line [dg-format-linenum [lindex $args 4]] }
-	}
+    set currentnum [lindex $args 0]
+    set numspec [lindex $args 4]
+    if { [llength $args] < 5 } {
+	set line [dg-format-linenum $currentnum]
+    } elseif { [regsub "^\.\[+-\](\[0-9\]+)$" $numspec "\\1" relnum] } {
+	# Handle relative line specification, .+1 or .-1 etc.
+	set relop [string index $numspec 1]
+	set line [expr $currentnum $relop $relnum]
+	set line [dg-format-linenum $line]
     } else {
-	set line [dg-format-linenum [lindex $args 0]]
+	switch -- $numspec {
+	    "." { set line [dg-format-linenum $currentnum] }
+	    "0" { set line "" }
+	    "default" { set line [dg-format-linenum $numspec] }
+	}
     }
 
     lappend messages [list $line "${xfail}WARNING" [lindex $args 1] [lindex $args 2]]
@@ -428,14 +444,21 @@ proc dg-bogus { args } {
 	}
     }
 
-    if { [llength $args] >= 5 } {
-	switch -- [lindex $args 4] {
-	    "." { set line [dg-format-linenum [lindex $args 0]] }
-	    "0" { set line "" }
-	    "default" { set line [dg-format-linenum [lindex $args 4]] }
-	}
+    set currentnum [lindex $args 0]
+    set numspec [lindex $args 4]
+    if { [llength $args] < 5 } {
+	set line [dg-format-linenum $currentnum]
+    } elseif { [regsub "^\.\[+-\](\[0-9\]+)$" $numspec "\\1" relnum] } {
+	# Handle relative line specification, .+1 or .-1 etc.
+	set relop [string index $numspec 1]
+	set line [expr $currentnum $relop $relnum]
+	set line [dg-format-linenum $line]
     } else {
-	set line [dg-format-linenum [lindex $args 0]]
+	switch -- $numspec {
+	    "." { set line [dg-format-linenum $currentnum] }
+	    "0" { set line "" }
+	    "default" { set line [dg-format-linenum $numspec] }
+	}
     }
 
     lappend messages [list $line "${xfail}BOGUS" [lindex $args 1] [lindex $args 2]]

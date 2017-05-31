@@ -1,0 +1,103 @@
+set srcdir [lindex $argv 0]
+set subdir [lindex $argv 1]
+set objdir [lindex $argv 2]
+
+source "$srcdir/../lib/dg.exp"
+
+
+# Test functions
+
+# Run TEST, and check if RES was added to dg-messages
+proc do_test { test res } {
+    set dg-messages [list]
+    {*}$test
+    if { [llength ${dg-messages}] == 0 } {
+	puts "FAILED: [join $test] -- has empty dg-messages"
+	return
+    }
+    set msg [lindex ${dg-messages} 0]
+    if { $msg == $res } {
+	puts "PASSED: [join $test]"
+    } else {
+	puts "FAILED: [join $test] -- expected [join $res] -- got [join $msg]"
+    }
+}
+
+# Test line number format for directive DIR, and expect corresponding message
+# DIRMSG.
+proc do_test_lines { dir dirmsg } {
+    # No line number
+    do_test \
+	[list $dir 1 "bla" "comment"] \
+	[list :1: $dirmsg "bla" "comment"]
+
+    # Current line number
+    do_test \
+	[list $dir 1 "bla" "comment" "" .] \
+	[list :1: $dirmsg "bla" "comment"]
+
+    # Zero line number
+    do_test \
+	[list $dir 1 "bla" "comment" "" 0] \
+	[list "" $dirmsg "bla" "comment"]
+
+    # Absolute line number
+    do_test \
+	[list $dir 1 "bla" "comment" "" 1] \
+	[list :1: $dirmsg "bla" "comment"]
+
+    # Relative line number, negative
+    do_test \
+	[list $dir 2 "bla" "comment3" "" .-1] \
+	[list :1: $dirmsg "bla" "comment3"]
+
+    # Relative line number, positive
+    do_test \
+	[list $dir 1 "bla" "comment3" "" .+1] \
+	[list :2: $dirmsg "bla" "comment3"]
+}
+
+
+# Tests ignoring target/xfail selector
+
+# Test missing comment argument. This is not according to the advertised syntax,
+# but it has worked sofar, so users may have started to expect this behaviour.
+do_test \
+	[list dg-error 1 "bla"] \
+	[list :1: "ERROR" "bla" ""]
+do_test \
+	[list dg-warning 1 "bla"] \
+	[list :1: "WARNING" "bla" ""]
+do_test \
+	[list dg-bogus 1 "bla"] \
+	[list :1: "BOGUS" "bla" ""]
+
+
+# Tests with target selector enabled
+
+proc dg-process-target { selector } {
+    return "P"
+}
+
+# Test line number format
+do_test_lines dg-error "ERROR"
+do_test_lines dg-warning "WARNING"
+do_test_lines dg-bogus "BOGUS"
+
+
+# Tests with xfail selector enabled
+
+proc dg-process-target { selector } {
+    return "F"
+}
+
+# Test X prefix
+do_test \
+	[list dg-error 1 "bla" "comment" ""] \
+	[list :1: XERROR "bla" "comment"]
+do_test \
+	[list dg-warning 1 "bla" "comment" ""] \
+	[list :1: XWARNING "bla" "comment"]
+do_test \
+	[list dg-bogus 1 "bla" "comment" ""] \
+	[list :1: XBOGUS "bla" "comment"]
