@@ -1,0 +1,13 @@
+echo "first.test:1: warning: bla" # { dg-bogus "bla" "" { xfail *-*-* } }
+
+# absolute line number
+echo "first.test:4: warning: bla"
+# { dg-bogus "bla" "" { xfail *-*-* } 4 }
+
+# relative line number, negative
+echo "first.test:8: warning: bla"
+# { dg-bogus "bla" "" { xfail *-*-* } .-1 }
+
+# relative line number, positive
+# { dg-bogus "bla" "" { xfail *-*-* } .+1 }
+echo "first.test:13: warning: bla"

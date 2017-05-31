@@ -1,1 +1,13 @@
 echo "first.test:1: error: bla" # { dg-error "bla" "" }
+
+# absolute line number
+echo "first.test:4: error: bla"
+# { dg-error "bla" "" { target *-*-* } 4 }
+
+# relative line number, negative
+echo "first.test:8: error: bla"
+# { dg-error "bla" "" { target *-*-* } .-1 }
+
+# relative line number, positive
+# { dg-error "bla" "" { target *-*-* } .+1 }
+echo "first.test:13: error: bla"
