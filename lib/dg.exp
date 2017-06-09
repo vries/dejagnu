@@ -181,15 +181,64 @@ proc dg-format-linenum { linenum } {
 # we return:
 #
 # { dg-prms-id 1 1234 } { dg-build 2 fatal "some comment" }
+#
+# Directive dg-dc (short for dg-directive-continue) can be used for multi-line
+# directives.  This:
+#
+# /* { dg-x a b c } */
+#
+# is equivalent to:
+#
+# /* { dg-x } */
+# /* { dg-dc a b } */
+# /* { dg-dc c } */
+#
+# and to:
+#
+# /* { dg-x a } */
+# /* { dg-dc b c} */
 
 proc dg-get-options { prog } {
     set result ""
+    set cmd_prev ""
 
-    set tmp [grep $prog "{\[ \t\]\+dg-\[-a-z\]\+\[ \t\]\+.*\[ \t\]\+}" line]
+    set grep_pattern [join {
+	"{"
+	"\[ \t\]\+"
+	"dg-\[-a-z\]\+"
+	"\[ \t\]\+"
+	"(.*\[ \t\]\+)?"
+	"}"
+    } ""]
+    set tmp [grep $prog $grep_pattern line]
     if {![string match "" $tmp]} {
+	set pattern [join {
+	    "(\[0-9\]+)"
+	    "\[ \t\]+"
+	    "{"
+	    "\[ \t\]+"
+	    "(dg-\[-a-z\]+)"
+	    "\[ \t\]+"
+	    "((.*)\[ \t\]+)?"
+	    "}"
+	    "\[^\}\]*"
+	    "(\n|$)"
+	} ""]
 	foreach i $tmp {
-	    regexp "(\[0-9\]+)\[ \t\]+{\[ \t\]+(dg-\[-a-z\]+)\[ \t\]+(.*)\[ \t\]+}\[^\}\]*(\n|$)" $i i line cmd args
-	    append result " { $cmd $line $args }"
+	    regexp $pattern $i dummy line cmd ws_args args
+	    if { "$cmd" == "dg-dc" } {
+		set args_prev "$args_prev $args"
+	    } else {
+		if { "$cmd_prev" != "" } {
+		    append result " { $cmd_prev $line_prev $args_prev }"
+		}
+		set cmd_prev $cmd
+		set line_prev $line
+		set args_prev "$args"
+	    }
+	}
+	if { "$cmd_prev" != "" } {
+	    append result " { $cmd_prev $line_prev $args_prev }"
 	}
     }
     return $result
